@@ -10,7 +10,8 @@ import uz.alimov.wellnessapp.model.WellnessTask
 fun WellnessTasksList(
     modifier: Modifier = Modifier,
     list: List<WellnessTask>,
-    onClose: (WellnessTask) -> Unit
+    onClose: (WellnessTask) -> Unit,
+    onCheckedChange: (WellnessTask, Boolean) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -20,8 +21,12 @@ fun WellnessTasksList(
             key = { task -> task.id }
         ) { task ->
             WellnessTaskItem(
-                task = task,
-                onClose = { onClose(it) }
+                taskName = task.label,
+                checked = task.checked.value,
+                onClose = { onClose(task) },
+                onCheckedChange = { checked ->
+                    onCheckedChange(task, checked)
+                }
             )
         }
     }
